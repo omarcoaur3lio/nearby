@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.maps.android.compose.GoogleMap
+import com.nearby.data.model.Market
 import com.nearby.data.model.mock.mockCategories
 import com.nearby.data.model.mock.mockMarkets
 import com.nearby.ui.comonents.category.NearbyCategoryFilterChipList
@@ -27,7 +28,7 @@ import com.nearby.ui.theme.Gray100
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(modifier: Modifier = Modifier, onNavigateToMarketDetails: (Market) -> Unit) {
     val bottomSheetState = rememberBottomSheetScaffoldState()
     var isBottomSheetStateOpened by remember { mutableStateOf(true) }
 
@@ -35,6 +36,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 
     if (isBottomSheetStateOpened) {
         BottomSheetScaffold(
+            modifier = modifier,
             scaffoldState = bottomSheetState,
             sheetContainerColor = Gray100,
             sheetPeekHeight = configuration.screenHeightDp.dp * 0.5f,
@@ -45,13 +47,17 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                         .fillMaxSize()
                         .padding(16.dp),
                     markets = mockMarkets,
-                    onMarketClick = {}
+                    onMarketClick = { selectedMarket ->
+                        onNavigateToMarketDetails(selectedMarket)
+                    }
                 )
             },
             content = {
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .padding(it)) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(it)
+                ) {
                     GoogleMap(modifier = Modifier.fillMaxSize())
                     NearbyCategoryFilterChipList(
                         modifier = Modifier
@@ -72,5 +78,5 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun HomeScreenPreview() {
-    HomeScreen()
+    HomeScreen(onNavigateToMarketDetails = {})
 }
