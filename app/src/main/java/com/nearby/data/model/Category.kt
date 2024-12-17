@@ -1,6 +1,7 @@
 package com.nearby.data.model
 
 import androidx.annotation.DrawableRes
+import com.nearby.ui.comonents.category.CategoryFilterChipView
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -10,5 +11,5 @@ data class Category(
 ) {
     @get:DrawableRes
     val icon: Int?
-        get() = CategoryFilterChipView.fromDescription(description = name)?.icon
+        get() = CategoryFilterChipView.Companion.fromDescription(description = name)?.icon
 }
