@@ -4,19 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.activity.viewModels
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.compose.runtime.getValue
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.nearby.data.model.Market
 import com.nearby.ui.screen.HomeScreen
+import com.nearby.ui.screen.HomeViewModel
 import com.nearby.ui.screen.MarketDetailsScreen
 import com.nearby.ui.screen.SplashScreen
 import com.nearby.ui.screen.WelcomeScreen
@@ -32,6 +29,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             NearbyTheme {
                 val navController = rememberNavController()
+
+                val homeViewModel by viewModels<HomeViewModel>()
+                val homeUiState by homeViewModel.uiState.collectAsStateWithLifecycle()
+
                 NavHost(
                     navController = navController,
                     startDestination = Splash
@@ -54,7 +55,9 @@ class MainActivity : ComponentActivity() {
                         HomeScreen(
                             onNavigateToMarketDetails = { selectedMarket ->
                                 navController.navigate(selectedMarket)
-                            }
+                            },
+                            uiSate = homeUiState,
+                            onEvent = homeViewModel::onEvent,
                         )
                     }
                     composable<Market> {
