@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
                             onNavigateToMarketDetails = { selectedMarket ->
                                 navController.navigate(selectedMarket)
                             },
-                            uiSate = homeUiState,
+                            uiState = homeUiState,
                             onEvent = homeViewModel::onEvent,
                         )
                     }
