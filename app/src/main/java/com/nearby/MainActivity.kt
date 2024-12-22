@@ -20,6 +20,7 @@ import com.nearby.ui.screen.welcome.WelcomeScreen
 import com.nearby.ui.route.Home
 import com.nearby.ui.route.Splash
 import com.nearby.ui.route.Welcome
+import com.nearby.ui.screen.market_details.MarketDetailsViewModel
 import com.nearby.ui.theme.NearbyTheme
 
 class MainActivity : ComponentActivity() {
@@ -32,6 +33,9 @@ class MainActivity : ComponentActivity() {
 
                 val homeViewModel by viewModels<HomeViewModel>()
                 val homeUiState by homeViewModel.uiState.collectAsStateWithLifecycle()
+
+                val marketDetailsViewModel by viewModels<MarketDetailsViewModel>()
+                val marketDetailsUiState by marketDetailsViewModel.uiState.collectAsStateWithLifecycle()
 
                 NavHost(
                     navController = navController,
@@ -64,6 +68,8 @@ class MainActivity : ComponentActivity() {
                         val selectedMarket = it.toRoute<Market>()
                         MarketDetailsScreen(
                             market = selectedMarket,
+                            uiState = marketDetailsUiState,
+                            onEvent = marketDetailsViewModel::onEvent,
                             onNavigationBack = {
                                 navController.popBackStack()
                             }
