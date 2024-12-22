@@ -1,4 +1,4 @@
-package com.nearby.ui.screen
+package com.nearby.ui.screen.home
 
 sealed class HomeUiEvent {
     data object OnFetchCategories : HomeUiEvent()

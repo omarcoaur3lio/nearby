@@ -1,4 +1,4 @@
-package com.nearby.ui.screen
+package com.nearby.ui.screen.market_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
